@@ -13,6 +13,8 @@
  * @link     https://github.com/asalmeidarj
  */
 
- 
 
-$pdo = new PDO('sqlite:banco.sqlite');
+$path = __DIR__ . '/banco.sqlite'; 
+$pdo = new PDO("sqlite:$path");
+
+echo 'Conectei';
