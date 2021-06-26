@@ -14,7 +14,7 @@
  */
 
 
-$path = __DIR__ . '/banco.sqlite'; 
-$pdo = new PDO("sqlite:$path");
+$pathSqlite = __DIR__ . '/banco.sqlite'; 
+$pdo = new PDO('sqlite:' . $pathSqlite);
 
 echo 'Conectei';
