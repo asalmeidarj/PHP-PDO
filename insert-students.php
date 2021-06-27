@@ -38,6 +38,5 @@ $sqlInsert = "INSERT INTO students (name, birth_date) VALUES (
                 );
             ";
  
-echo $sqlInsert;
-
+// Inserting data into the table
 $pdo->exec($sqlInsert);
