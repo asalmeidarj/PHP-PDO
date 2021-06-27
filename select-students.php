@@ -22,8 +22,8 @@ $pdo = new PDO('sqlite:' . $dataBasePath);
 
 
 // Select students
-$statemant = $pdo->query('SELECT * FROM students;');
-$listStudents = $statemant->fetchAll();
+$statement = $pdo->query('SELECT * FROM students;');
+$listStudents = $statement->fetchAll();
 
 // Show Students
 foreach ($listStudents as $student) {
