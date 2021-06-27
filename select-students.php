@@ -23,7 +23,7 @@ $pdo = new PDO('sqlite:' . $dataBasePath);
 
 // Select students
 $statement = $pdo->query('SELECT * FROM students;');
-$listStudents = $statement->fetchAll();
+$listStudents = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 // Show Students
 foreach ($listStudents as $student) {
