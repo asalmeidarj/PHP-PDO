@@ -23,7 +23,7 @@
  
  echo 'Conectado...'. PHP_EOL;
  
- 
+
  //// CREATING TABLE
 $pdo->exec(
     'CREATE TABLE students (
@@ -79,4 +79,4 @@ echo $sqlInsert . PHP_EOL;
 // Inserting SQL INJECTION
 $pdo->exec($sqlInsert);
 
-echo "INJEÇÃO CONCLUIDA" . PHP_EOL;
+echo "INJEÇÃO CONCLUIDA!" . PHP_EOL;
