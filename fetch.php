@@ -22,7 +22,7 @@ $pdo = new PDO('sqlite:' . $dataBasePath);
 
 
 // Select students
-$statement = $pdo->query('SELECT * FROM students WHERE id = 3;');
+$statement = $pdo->query('SELECT * FROM students;');
 
 // Show Students
 while ($studentData = $statement->fetch(PDO::FETCH_ASSOC)) {
