@@ -3,6 +3,7 @@
 namespace Asalmeidarj\Pdo\Domain\Repository;
 
 use DateTimeInterface;
+use Asalmeidarj\Pdo\Domain\Model\Student;
 
 interface StudentRepository
 {
@@ -10,7 +11,7 @@ interface StudentRepository
 
     public function studentBirthAt(DateTimeInterface $birthDate): array;
 
-    public function saveStudent(): bool;
+    public function saveStudent(Student $student): bool;
 
     public function remove(): bool;
 }
