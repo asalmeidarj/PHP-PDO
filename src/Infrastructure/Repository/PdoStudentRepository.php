@@ -3,17 +3,16 @@
 namespace Asalmeidarj\Pdo\Infrastructure\Repository;
 
 use Asalmeidarj\Pdo\Domain\Repository\StudentRepository;
-use Asalmeidarj\Pdo\Infrastructure\Persistence\ConnectionCreator;
 use DateTimeInterface;
 use PDO;
 
 class PdoStudentRepository implements StudentRepository
 {
-    private PDO $pdo;
+    private PDO $connection;
 
-    public function __construct()
+    public function __construct(PDO $connection)
     {
-        $this->pdo = ConnectionCreator::creatorConnection();
+        $this->connection = $connection;
     }
 
     public function allStudent(): array
@@ -21,7 +20,7 @@ class PdoStudentRepository implements StudentRepository
         $allStudent = [];
 
         // Select all students
-        $statement = $this->pdo->query('SELECT * FROM students;');
+        $statement = $this->connection->query('SELECT * FROM students;');
 
         // Get Students
         while ($studentData = $statement->fetch(PDO::FETCH_ASSOC)) {
