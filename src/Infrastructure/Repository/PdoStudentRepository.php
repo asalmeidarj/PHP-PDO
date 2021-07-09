@@ -27,15 +27,47 @@ class PdoStudentRepository implements StudentRepository
     public function studentBirthAt(DateTimeInterface $birthDate): array
     {
         $stm = $this->connection->prepare('SELECT * FROM students WHERE birth_date = ?;');
-        $stm->bindValue(1, $birthDate->format('Y-m-d'), PDO::PARAM_STR);    
+        $stm->bindValue(1, $birthDate->format('Y-m-d'), PDO::PARAM_STR);
         $stm->execute();
 
         return $this->hidrateStudentList($stm);
     }
 
-    public function saveStudent(): bool
+    public function saveStudent(Student $student): bool
     {
-        return false;
+        if ($student->id() === null) {
+            return $this->insert($student);
+        }
+
+        return $this->update($student);
+    }
+
+    private function insert(Student $student): bool
+    {
+        $insertQuery = 'INSERT INTO students (name, birth_date) VALUES (:name, :birth_date);';
+        $stmt = $this->connection->prepare($insertQuery);
+
+        $success = $stmt->execute([
+            ':name' => $student->name(),
+            ':birth_date' => $student->birthDate()->format('Y-m-d'),
+        ]);
+
+        if ($success) {
+            $student->defineId($this->connection->lastInsertId());
+        }
+
+        return $success;
+    }
+
+    private function update(Student $student): bool
+    {
+        $updateQuery = 'UPDATE students SET name = :name, birth_date = :birth_date WHERE id = :id;';
+        $stmt = $this->connection->prepare($updateQuery);
+        $stmt->bindValue(':name', $student->name());
+        $stmt->bindValue(':birth_date', $student->birthDate()->format('Y-m-d'));
+        $stmt->bindValue(':id', $student->id(), PDO::PARAM_INT);
+
+        return $stmt->execute();
     }
 
     public function remove(): bool
