@@ -2,6 +2,7 @@
 
 namespace Asalmeidarj\Pdo\Infrastructure\Repository;
 
+use Asalmeidarj\Pdo\Domain\Model\Student;
 use Asalmeidarj\Pdo\Domain\Repository\StudentRepository;
 use DateTimeInterface;
 use PDO;
@@ -17,20 +18,10 @@ class PdoStudentRepository implements StudentRepository
 
     public function allStudent(): array
     {
-        $allStudent = [];
-
         // Select all students
-        $statement = $this->connection->query('SELECT * FROM students;');
+        $stm = $this->connection->query('SELECT * FROM students;');
 
-        // Get Students
-        while ($studentData = $statement->fetch(PDO::FETCH_ASSOC)) {
-            $allStudent[] = [
-                'id' => $studentData['id'],
-                'name' => $studentData['name'],
-                'birthDate' => $studentData['birth_date']
-            ];
-        }
-        return $allStudent;
+        return $this->hidrateStudentList($stm);
     }
 
     public function studentBirthAt(DateTimeInterface $birthDate): array
@@ -46,5 +37,19 @@ class PdoStudentRepository implements StudentRepository
     public function remove(): bool
     {
         return false;
+    }
+
+    private function hidrateStudentList(\PDOStatement $stm): array
+    {
+        $studentList = [];
+
+        while ($studentData = $stm->fetch(PDO::FETCH_ASSOC)) {
+            $studentList[] = new Student(
+                $studentData['id'],
+                $studentData['name'],
+                new \DateTimeImmutable($studentData['birth_date'])
+            );
+        }
+        return $studentList;
     }
 }
