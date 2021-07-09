@@ -18,7 +18,7 @@ $pdo = \Asalmeidarj\Pdo\Infrastructure\Persistence\ConnectionCreator::creatorCon
 
 $sqlDelete = "DELETE FROM students WHERE name = ?;";
 $prepareStatement = $pdo->prepare($sqlDelete);
-$nome = 'Alessandro Almeida';
+$nome = 'Alessandro Almeida2';
 $prepareStatement->bindValue(1, $nome, PDO::PARAM_STR);
 
 if ($prepareStatement->execute()) {
