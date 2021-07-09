@@ -2,7 +2,7 @@
 
 /**
  * Select students in Table
- * 
+ *
  * PHP version 8.0.7
  *
  * @category Sqlite
@@ -17,7 +17,7 @@
 
 
 // Connecting Data Base
-$dataBasePath = __DIR__ . '/banco.sqlite'; 
+$dataBasePath = __DIR__ . '/banco.sqlite';
 $pdo = new PDO('sqlite:' . $dataBasePath);
 
 
@@ -34,9 +34,9 @@ while ($studentData = $statement->fetch(PDO::FETCH_ASSOC)) {
           it would display all the names in the table.
           When we pass the return value of the 'fetch' method
           inside a WHILE an iteration occurs.
-          
-          Exemplo: 
-                                
+
+            Exemplo:
+
               $statement = $pdo->query('SELECT * FROM students;');
 
               while ($studentData = $statement->fetch(PDO::FETCH_ASSOC)) {
