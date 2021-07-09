@@ -24,7 +24,7 @@ $pdo = \Asalmeidarj\Pdo\Infrastructure\Persistence\ConnectionCreator::creatorCon
 // Creating a Student
 $student = new Student(
     null,
-    'Ricardão da Esquina',
+    'Joselino Ribeirinha',
     new \DateTimeImmutable('1988-11-19')
 );
 
@@ -37,7 +37,6 @@ $sqlInsert = "INSERT INTO students (name, birth_date) VALUES (
 
 $name = $student->name();
 $birth_date = $student->birthDate()->format('Y-m-d');
-echo $birth_date . PHP_EOL;
 
 $prepareStatement = $pdo->prepare($sqlInsert);
 $prepareStatement->bindValue(':name', $name, PDO::PARAM_STR);
