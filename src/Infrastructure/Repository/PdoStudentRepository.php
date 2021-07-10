@@ -70,9 +70,13 @@ class PdoStudentRepository implements StudentRepository
         return $stmt->execute();
     }
 
-    public function remove(): bool
+    public function remove(Student $student): bool
     {
-        return false;
+        $removeQuery = 'DELETE FROM students WHERE id = ?';
+        $stm = $this->connection->prepare($removeQuery);
+        $stm->bindValue(1, $student->id(), PDO::PARAM_INT);
+
+        return $stm->execute();
     }
 
     private function hidrateStudentList(\PDOStatement $stm): array
