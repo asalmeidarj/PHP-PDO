@@ -72,8 +72,8 @@ class PdoStudentRepository implements StudentRepository
 
     public function remove(Student $student): bool
     {
-        $removeQuery = 'DELETE FROM students WHERE id = ?';
-        $stm = $this->connection->prepare($removeQuery);
+        $removeSql = 'DELETE FROM students WHERE id = ?';
+        $stm = $this->connection->prepare($removeSql);
         $stm->bindValue(1, $student->id(), PDO::PARAM_INT);
 
         return $stm->execute();
