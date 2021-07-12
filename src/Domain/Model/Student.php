@@ -52,4 +52,15 @@ class Student
             ->diff(new \DateTimeImmutable())
             ->y;
     }
+
+    public function addPhone(Phone $phone): void
+    {
+        $this->phones[] = $phone;
+    }
+
+    /** @return Phones[] */
+    public function phones(): array
+    {
+        return $this->phones;
+    }
 }
