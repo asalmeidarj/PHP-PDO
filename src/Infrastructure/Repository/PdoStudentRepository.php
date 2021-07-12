@@ -4,6 +4,7 @@ namespace Asalmeidarj\Pdo\Infrastructure\Repository;
 
 use Asalmeidarj\Pdo\Domain\Model\Student;
 use Asalmeidarj\Pdo\Domain\Repository\StudentRepository;
+use Asalmeidarj\Pdo\Domain\Model\Phone;
 use DateTimeInterface;
 use PDO;
 
@@ -84,12 +85,40 @@ class PdoStudentRepository implements StudentRepository
         $studentList = [];
 
         while ($studentData = $stm->fetch(PDO::FETCH_ASSOC)) {
-            $studentList[] = new Student(
+            $student = new Student(
                 $studentData['id'],
                 $studentData['name'],
                 new \DateTimeImmutable($studentData['birth_date'])
             );
+            $this->fillPhoneOf($student);
+            $studentList[] = $student;
         }
         return $studentList;
+    }
+
+    private function fillPhoneOf(Student $student): void
+    {
+        $sqlQuery = 'SELECT student_id, area_code, number FROM phones WHERE student_id = ?;';
+        $stmt = $this->connection->prepare($sqlQuery);
+        $stmt->bindValue(1, $student->id(), PDO::PARAM_INT);
+        $stmt->execute();
+        while ($phoneData = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $phone =  new Phone(
+                $phoneData['student_id'],
+                $phoneData['area_code'],
+                $phoneData['number']
+            );
+            $student->addPhone($phone);
+        }
+    }
+
+    public function insertPhone(Phone $phone): void
+    {
+        $sqlInsert = 'INSERT INTO phones (student_id, area_code, number) VALUES (:i, :a, :n)';
+        $stmt = $this->connection->prepare($sqlInsert);
+        $stmt->bindValue(':i', $phone->id(), PDO::PARAM_INT);
+        $stmt->bindValue(':a', $phone->areaCode(), PDO::PARAM_STR);
+        $stmt->bindValue(':n', $phone->number(), PDO::PARAM_STR);
+        $stmt->execute();
     }
 }
