@@ -5,6 +5,7 @@ namespace Asalmeidarj\Pdo\Infrastructure\Repository;
 use Asalmeidarj\Pdo\Domain\Model\Student;
 use Asalmeidarj\Pdo\Domain\Repository\StudentRepository;
 use Asalmeidarj\Pdo\Domain\Model\Phone;
+use DateTimeImmutable;
 use DateTimeInterface;
 use PDO;
 
@@ -120,5 +121,31 @@ class PdoStudentRepository implements StudentRepository
         $stmt->bindValue(':a', $phone->areaCode(), PDO::PARAM_STR);
         $stmt->bindValue(':n', $phone->number(), PDO::PARAM_STR);
         $stmt->execute();
+    }
+
+    public function studentWithPhone(): array
+    {
+        $sqlQuery = 'SELECT students.id,
+                            students.name,
+                            students.birth_date,
+                            phones.id AS phone_id,
+                            phones.area_code,
+                            phones.number
+                    FROM students
+                    JOIN phones ON students.id = phones.student_id;';
+        $stmt = $this->connection->query($sqlQuery);
+        $studentList = [];
+        while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            if (!array_key_exists($data['id'], $studentList)) {
+                $studentList[$data['id']] = new Student(
+                    $data['id'],
+                    $data['name'],
+                    new DateTimeImmutable($data['birth_date'])
+                );
+            }
+            $phone = new Phone($data['phone_id'], $data['area_code'], $data['number']);
+            $studentList[$data['id']]->addPhone($phone);
+        }
+        return $studentList;
     }
 }

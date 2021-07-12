@@ -9,6 +9,8 @@ interface StudentRepository
 {
     public function allStudent(): array;
 
+    public function studentWithPhone(): array;
+
     public function studentBirthAt(DateTimeInterface $birthDate): array;
 
     public function saveStudent(Student $student): bool;

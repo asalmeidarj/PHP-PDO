@@ -30,4 +30,17 @@ foreach ($studentList as $student) {
     }
 }
 
+$studentList = $pdo->studentWithPhone();
+foreach ($studentList as $student) {
+    if ($student->phones() != null) {
+        $phones = $student->phones();
+        echo "Student: {$student->name()}" . PHP_EOL;
+        $i = 1;
+        foreach ($phones as $phone) {
+            echo "Phone($i): {$phone->formattedPhone()}";
+            $i++;
+        }
+    }
+}
+
 $connection->rollBack();
