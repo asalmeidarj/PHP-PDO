@@ -18,14 +18,14 @@ $connection->beginTransaction();
 try {
     $student1 = new Student(
         null,
-        'Noel Curioso',
-        new DateTimeImmutable('1970-10-10')
+        'Almir Almeida',
+        new DateTimeImmutable('1960-08-08')
     );
 
     $student2 = new Student(
         null,
-        'Carlos Augusto',
-        new DateTimeImmutable('1980-04-30')
+        'Daniel Louro Costa',
+        new DateTimeImmutable('1983-10-24')
     );
 
     $pdo->saveStudent($student1);
