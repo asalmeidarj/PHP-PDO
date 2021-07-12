@@ -18,6 +18,21 @@ class Phone
 
     public function formattedPhone(): string
     {
-        return "({$this->area_code}) {$this->number}";
+        return "({$this->area_code}) {$this->number}" . PHP_EOL;
+    }
+
+    public function id(): ?int
+    {
+        return $this->id;
+    }
+
+    public function areaCode(): string
+    {
+        return $this->area_code;
+    }
+
+    public function number(): string
+    {
+        return $this->number;
     }
 }
